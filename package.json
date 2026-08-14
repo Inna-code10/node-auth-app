@@ -1,0 +1,38 @@
+{
+  "name": "node-auth-app",
+  "version": "1.0.0",
+  "description": "Node.js authentication API with email activation, JWT access and refresh tokens, password reset, protected routes, and PostgreSQL persistence.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^8.6.0",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^9.0.3",
+    "pg": "^8.22.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-node": "^11.1.0",
+    "nodemon": "^3.1.14"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "authentication",
+    "jwt",
+    "postgresql",
+    "sequelize"
+  ]
+}
