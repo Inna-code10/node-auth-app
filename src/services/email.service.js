@@ -1,10 +1,8 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 const requiredEmailEnvVariables = [
-  'SMTP_HOST',
-  'SMTP_PORT',
-  'SMTP_USER',
-  'SMTP_PASSWORD',
+  'RESEND_API_KEY',
+  'RESEND_FROM_EMAIL',
   'CLIENT_HOST',
 ];
 
@@ -18,34 +16,26 @@ function validateEmailEnvironment() {
       `Missing email environment variables: ${missingVariables.join(', ')}`,
     );
   }
-
-  const smtpPort = Number(process.env.SMTP_PORT);
-
-  if (!Number.isInteger(smtpPort) || smtpPort <= 0) {
-    throw new Error('SMTP_PORT must be a valid positive number');
-  }
 }
 
 validateEmailEnvironment();
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: Number(process.env.SMTP_PORT) === 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function send({ email, subject, html }) {
   try {
-    return await transporter.sendMail({
-      from: process.env.SMTP_USER,
+    const { data, error } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL,
       to: email,
       subject,
       html,
     });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
   } catch {
     throw new Error('Email could not be sent');
   }
